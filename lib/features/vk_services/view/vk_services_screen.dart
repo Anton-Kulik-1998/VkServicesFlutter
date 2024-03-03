@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                   title: Text(service.name),
                   subtitle: Text(service.description),
                   onTap: () {
-                    // Действие при нажатии на сервис
+                    _dataService.launchURL(service.link);
                   },
                 );
               },

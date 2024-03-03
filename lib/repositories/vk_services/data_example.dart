@@ -1,6 +1,6 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:vk_services_flutter/repositories/vk_services/models/models.dart';
 
 
@@ -19,4 +19,11 @@ class DataService {
       return throw Exception('Failed to load VK data');
     }
   }
+  void launchURL(String url) async {
+  if (await canLaunchUrlString(url)) {
+    await launchUrlString(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 }
