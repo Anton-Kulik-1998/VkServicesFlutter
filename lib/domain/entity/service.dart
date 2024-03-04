@@ -1,3 +1,9 @@
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'service.g.dart';
+
+@JsonSerializable()
 class Service {
   final String name;
   final String description;
@@ -10,12 +16,6 @@ class Service {
     required this.link,
     required this.iconURL,
   });
-  factory Service.fromJson(Map<String, dynamic> json) {
-    return Service(
-      name: json["name"] as String,
-      description: json["description"] as String,
-      link: json["link"] as String,
-      iconURL: json["icon_url"] as String,
-    );
-  }
+  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+  Map<String, dynamic> toJson() => _$ServiceToJson(this);
 }

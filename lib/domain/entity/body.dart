@@ -1,14 +1,13 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:vk_services_flutter/domain/entity/entity.dart';
 
+part 'body.g.dart';
+
+@JsonSerializable()
 class Body {
   final List<Service> services;
 
   Body({required this.services});
-  factory Body.fromJson(Map<String, dynamic> json) {
-    List<Service> services = [];
-    for (var serviceJson in json['services']) {
-      services.add(Service.fromJson(serviceJson));
-    }
-    return Body(services: services); 
-  }
+  factory Body.fromJson(Map<String, dynamic> json) => _$BodyFromJson(json);
+  Map<String, dynamic> toJson() => _$BodyToJson(this);
 }

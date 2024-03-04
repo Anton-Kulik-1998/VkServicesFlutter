@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error!: ${snapshot.error}'));
           } else {
             final vkData = snapshot.data!;
             return ListView.builder(
