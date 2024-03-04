@@ -8,6 +8,7 @@ class Service {
   final String name;
   final String description;
   final String link;
+  @JsonKey(name: "icon_url")
   final String iconURL;
 
   Service({
