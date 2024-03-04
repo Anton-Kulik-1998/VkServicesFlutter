@@ -3,9 +3,13 @@ import 'package:vk_services_flutter/domain/api_clients/api_client.dart';
 import 'package:vk_services_flutter/domain/entity/entity.dart';
 
 class VkServicesWidgetModel extends ChangeNotifier {
+  VkServicesWidgetModel() {
+    reloadServices();
+  }
   final apiClient = ApiClient();
   late final VKData _vkData;
-  VKData get services => _vkData;
+  VKData get vkData => _vkData;
+  
   Future<void> reloadServices() async {
     final vkData = await apiClient.getCervices();
     _vkData = vkData;
