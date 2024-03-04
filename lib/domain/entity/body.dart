@@ -1,4 +1,4 @@
-import 'package:vk_services_flutter/repositories/vk_services/models/models.dart';
+import 'package:vk_services_flutter/domain/entity/entity.dart';
 
 class Body {
   final List<Service> services;
