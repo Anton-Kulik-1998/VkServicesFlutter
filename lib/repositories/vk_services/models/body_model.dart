@@ -9,6 +9,6 @@ class Body {
     for (var serviceJson in json['services']) {
       services.add(Service.fromJson(serviceJson));
     }
-    return Body(services: services);
+    return Body(services: services); 
   }
 }

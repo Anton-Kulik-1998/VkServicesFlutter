@@ -14,7 +14,7 @@ class DataService {
 
     if (response.statusCode == 200) {
       final jsonData = json.decode(utf8.decode(response.bodyBytes));
-      return VKDataModel.fromJson(jsonData);
+      return VKDataModel.fromJson(jsonData as Map<String, dynamic>);
     } else {
       return throw Exception('Failed to load VK data');
     }
