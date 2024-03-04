@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:vk_services_flutter/domain/api_clients/api_client.dart';
 import 'package:vk_services_flutter/domain/entity/entity.dart';
-import 'package:vk_services_flutter/repositories/vk_services/data_example.dart';
+
 
 class HomeScreen extends StatelessWidget {
-  final DataService _dataService = DataService();
+  final ApiClient _dataService = ApiClient();
 
   HomeScreen({super.key});
 
@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<VKData>(
-        future: _dataService.fetchVKData(http.Client()),
+        future: _dataService.getCervices(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -28,7 +28,7 @@ class HomeScreen extends StatelessWidget {
                   title: Text(service.name),
                   subtitle: Text(service.description),
                   onTap: () {
-                    _dataService.launchURL(service.link);
+                    // _dataService.launchURL(service.link);
                   },
                 );
               },
