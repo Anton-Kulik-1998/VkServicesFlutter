@@ -7,8 +7,8 @@ class VkServicesWidgetModel extends ChangeNotifier {
     reloadServices();
   }
   final apiClient = ApiClient();
-  late final VKData _vkData;
-  VKData get vkData => _vkData;
+  VKData? _vkData;
+  VKData? get vkData => _vkData;
   
   Future<void> reloadServices() async {
     final vkData = await apiClient.getCervices();
