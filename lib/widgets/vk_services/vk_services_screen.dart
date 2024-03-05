@@ -16,19 +16,7 @@ class _VkServicesState extends State<VkServices> {
       body: SafeArea(
         child: VkServicesWidgetModelProvider(
           model: model,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    VkServicesWidgetModelProvider.read(context)
-                        ?.model
-                        .reloadServices();
-                  },
-                  child: const Text("dgdg")),
-              const _VkServicesWidget(),
-            ],
-          ),
+          child: const _VkServicesWidget(),
         ),
       ),
     );
