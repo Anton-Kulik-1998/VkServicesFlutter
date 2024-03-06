@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/vk_services/vk_services_screen.dart';
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -7,11 +9,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: VkServices(),
     );
   }
 }
