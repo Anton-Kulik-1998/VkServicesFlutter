@@ -15,11 +15,9 @@ class _VkServicesState extends State<VkServices> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: VkServicesWidgetModelProvider(
-          model: model,
-          child: const _VkServicesWidget(),
-        ),
+      body: VkServicesWidgetModelProvider(
+        model: model,
+        child: const _VkServicesWidget(),
       ),
     );
   }
@@ -67,14 +65,14 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
       slivers: <Widget>[
         SliverAppBar(
           backgroundColor: Colors.grey[100],
-          expandedHeight: 110.0,
+          expandedHeight: 90.0,
           titleSpacing: 0,
           flexibleSpace: FlexibleSpaceBar(
             background: Container(
               color: Colors.transparent,
             ),
             centerTitle: true,
-            titlePadding: const EdgeInsets.all(10),
+            titlePadding: const EdgeInsets.symmetric(horizontal: 20),
             title: const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -90,19 +88,36 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
           floating: false, // Делаем AppBar "плавающим"
           pinned: false, // Закрепляем AppBar при прокрутке вниз
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (BuildContext context, int index) {
-              return _VkServiceListTileWidget(index: index);
-            },
-            childCount:
-                vkData!.body.services.length, // Количество элементов в списке
+        SliverToBoxAdapter(
+          child: Container(
+            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: List.generate(
+                vkData!.body.services.length,
+                (index) => _VkServiceListTileWidget(index: index),
+              ),
+            ),
           ),
         ),
       ],
     );
   }
 }
+
+// SliverList(
+//               delegate: SliverChildBuilderDelegate(
+//                 (BuildContext context, int index) {
+//                   return _VkServiceListTileWidget(index: index);
+//                 },
+//                 childCount: vkData!
+//                     .body.services.length, // Количество элементов в списке
+//               ),
+//             ),
 
 class _VkServicesListViewWidget extends StatelessWidget {
   const _VkServicesListViewWidget({
@@ -137,7 +152,29 @@ class _VkServiceListTileWidget extends StatelessWidget {
         image: CachedNetworkImageProvider(service.iconURL),
       ),
       title: Text(service.name),
-      subtitle: Text(service.description),
+      subtitle: Column(
+        children: [
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              service.description,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              style: const TextStyle(fontSize: 12),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          SizedBox(
+            width: double.infinity,
+            height: 2,
+            child: Container(
+              color: Colors.grey[100],
+            ),
+          )
+        ],
+      ),
       onTap: () {
         model.launchUrl(index);
       },
