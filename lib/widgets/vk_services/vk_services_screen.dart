@@ -14,6 +14,7 @@ class _VkServicesState extends State<VkServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       body: SafeArea(
         child: VkServicesWidgetModelProvider(
           model: model,
@@ -51,7 +52,54 @@ class _VkServicesRefreshIndicatorWidget extends StatelessWidget {
             ?.model
             .reloadServices();
       },
-      child: const _VkServicesListViewWidget(),
+      child: const _VkServicesCustomScrollViewWidget(),
+    );
+  }
+}
+
+class _VkServicesCustomScrollViewWidget extends StatelessWidget {
+  const _VkServicesCustomScrollViewWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final vkData = VkServicesWidgetModelProvider.read(context)?.model.vkData;
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverAppBar(
+          backgroundColor: Colors.grey[100],
+          expandedHeight: 110.0,
+          titleSpacing: 0,
+          flexibleSpace: FlexibleSpaceBar(
+            background: Container(
+              color: Colors.transparent,
+            ),
+            centerTitle: true,
+            titlePadding: const EdgeInsets.all(10),
+            title: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  textAlign: TextAlign.start,
+                  'Сервисы VK',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ),
+          floating: false, // Делаем AppBar "плавающим"
+          pinned: false, // Закрепляем AppBar при прокрутке вниз
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return _VkServiceListTileWidget(index: index);
+            },
+            childCount:
+                vkData!.body.services.length, // Количество элементов в списке
+          ),
+        ),
+      ],
     );
   }
 }
