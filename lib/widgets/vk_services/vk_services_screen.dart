@@ -66,14 +66,14 @@ class _VkServicesListViewWidget extends StatelessWidget {
     return ListView.builder(
       itemCount: vkData!.body.services.length,
       itemBuilder: (context, index) {
-        return _VkServicesListTileWidget(index: index);
+        return _VkServiceListTileWidget(index: index);
       },
     );
   }
 }
 
-class _VkServicesListTileWidget extends StatelessWidget {
-  const _VkServicesListTileWidget({
+class _VkServiceListTileWidget extends StatelessWidget {
+  const _VkServiceListTileWidget({
     super.key,
     required this.index,
   });
@@ -81,15 +81,16 @@ class _VkServicesListTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vkData = VkServicesWidgetModelProvider.read(context)!.model.vkData;
+    final model = VkServicesWidgetModelProvider.read(context)!.model;
+    final service = model.vkData!.body.services[index];
     return ListTile(
       leading: Image.network(
-        vkData!.body.services[index].iconURL,
+        service.iconURL,
       ),
-      title: Text(vkData.body.services[index].name),
-      subtitle: Text(vkData.body.services[index].description),
+      title: Text(service.name),
+      subtitle: Text(service.description),
       onTap: () {
-        // _dataService.launchURL(service.link);
+        model.launchUrl(index);
       },
     );
   }
