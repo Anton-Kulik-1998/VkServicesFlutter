@@ -30,29 +30,67 @@ class _VkServicesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final vkData = VkServicesWidgetModelProvider.watch(context)?.model.vkData;
     return (vkData != null)
-        ? RefreshIndicator(
-            onRefresh: () async {
-              await VkServicesWidgetModelProvider.read(context)
-                  ?.model
-                  .reloadServices();
-            },
-            child: ListView.builder(
-              itemCount: vkData.body.services.length,
-              itemBuilder: (context, index) {
-                final vkData =
-                    VkServicesWidgetModelProvider.read(context)!.model.vkData;
-                return ListTile(
-                  title: Text(vkData!.body.services[index].name),
-                  subtitle: Text(vkData.body.services[index].description),
-                  onTap: () {
-                    // _dataService.launchURL(service.link);
-                  },
-                );
-              },
-            ),
-          )
+        ? const _VkServicesRefreshIndicatorWidget()
         : const Center(
             child: CircularProgressIndicator(),
           );
+  }
+}
+
+class _VkServicesRefreshIndicatorWidget extends StatelessWidget {
+  const _VkServicesRefreshIndicatorWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await VkServicesWidgetModelProvider.read(context)
+            ?.model
+            .reloadServices();
+      },
+      child: const _VkServicesListViewWidget(),
+    );
+  }
+}
+
+class _VkServicesListViewWidget extends StatelessWidget {
+  const _VkServicesListViewWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final vkData = VkServicesWidgetModelProvider.read(context)?.model.vkData;
+    return ListView.builder(
+      itemCount: vkData!.body.services.length,
+      itemBuilder: (context, index) {
+        return _VkServicesListTileWidget(index: index);
+      },
+    );
+  }
+}
+
+class _VkServicesListTileWidget extends StatelessWidget {
+  const _VkServicesListTileWidget({
+    super.key,
+    required this.index,
+  });
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final vkData = VkServicesWidgetModelProvider.read(context)!.model.vkData;
+    return ListTile(
+      leading: Image.network(
+        vkData!.body.services[index].iconURL,
+      ),
+      title: Text(vkData.body.services[index].name),
+      subtitle: Text(vkData.body.services[index].description),
+      onTap: () {
+        // _dataService.launchURL(service.link);
+      },
+    );
   }
 }
