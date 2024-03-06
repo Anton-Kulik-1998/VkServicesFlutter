@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:vk_services_flutter/widgets/vk_services/vk_services_screen_model.dart';
 
@@ -84,8 +85,8 @@ class _VkServiceListTileWidget extends StatelessWidget {
     final model = VkServicesWidgetModelProvider.read(context)!.model;
     final service = model.vkData!.body.services[index];
     return ListTile(
-      leading: Image.network(
-        service.iconURL,
+      leading: Image(
+        image: CachedNetworkImageProvider(service.iconURL),
       ),
       title: Text(service.name),
       subtitle: Text(service.description),
