@@ -50,6 +50,9 @@ class _VkServicesRefreshIndicatorWidget extends StatelessWidget {
             ?.model
             .reloadServices();
       },
+      color: Colors.grey[400],
+      displacement: 10,
+      edgeOffset: 20,
       child: const _VkServicesCustomScrollViewWidget(),
     );
   }
