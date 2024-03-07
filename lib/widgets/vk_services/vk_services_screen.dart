@@ -112,33 +112,6 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
   }
 }
 
-// SliverList(
-//               delegate: SliverChildBuilderDelegate(
-//                 (BuildContext context, int index) {
-//                   return _VkServiceListTileWidget(index: index);
-//                 },
-//                 childCount: vkData!
-//                     .body.services.length, // Количество элементов в списке
-//               ),
-//             ),
-
-class _VkServicesListViewWidget extends StatelessWidget {
-  const _VkServicesListViewWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final vkData = VkServicesWidgetModelProvider.read(context)?.model.vkData;
-    return ListView.builder(
-      itemCount: vkData!.body.services.length,
-      itemBuilder: (context, index) {
-        return _VkServiceListTileWidget(index: index);
-      },
-    );
-  }
-}
-
 class _VkServiceListTileWidget extends StatelessWidget {
   const _VkServiceListTileWidget({
     super.key,
