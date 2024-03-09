@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../theme/theme.dart';
 import '../widgets/vk_services/vk_services_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -9,12 +10,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    return const MaterialApp(
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: VkServices(),
+      home: const VkServices(),
+      theme: lightTheme,
+      darkTheme: darkTheme,
     );
   }
 }
