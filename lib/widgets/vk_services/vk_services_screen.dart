@@ -14,7 +14,6 @@ class _VkServicesState extends State<VkServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
       body: VkServicesWidgetModelProvider(
         model: model,
         child: const _VkServicesWidget(),
@@ -44,13 +43,15 @@ class _VkServicesRefreshIndicatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return RefreshIndicator(
       onRefresh: () async {
         await VkServicesWidgetModelProvider.read(context)
             ?.model
             .reloadServices();
       },
-      color: Colors.grey[400],
+      color: theme.colorScheme.inversePrimary,
+      backgroundColor: theme.colorScheme.primary,
       displacement: 10,
       edgeOffset: 20,
       child: const _VkServicesCustomScrollViewWidget(),
@@ -64,15 +65,16 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final vkData = VkServicesWidgetModelProvider.read(context)?.model.vkData;
+    final ThemeData theme = Theme.of(context);
     return CustomScrollView(
       slivers: <Widget>[
         SliverAppBar(
-          backgroundColor: Colors.grey[100],
+          backgroundColor: theme.colorScheme.background,
           expandedHeight: 90.0,
           titleSpacing: 0,
           flexibleSpace: FlexibleSpaceBar(
             background: Container(
-              color: Colors.transparent,
+              color: theme.colorScheme.background,
             ),
             centerTitle: true,
             titlePadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -82,8 +84,7 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
                 Text(
                   textAlign: TextAlign.start,
                   'Сервисы VK',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -96,7 +97,7 @@ class _VkServicesCustomScrollViewWidget extends StatelessWidget {
             margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
@@ -123,6 +124,7 @@ class _VkServiceListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = VkServicesWidgetModelProvider.read(context)!.model;
     final service = model.vkData!.body.services[index];
+    final ThemeData theme = Theme.of(context);
     return ListTile(
       leading: Image(
         image: CachedNetworkImageProvider(service.iconURL),
@@ -146,7 +148,7 @@ class _VkServiceListTileWidget extends StatelessWidget {
             width: double.infinity,
             height: 2,
             child: Container(
-              color: Colors.grey[100],
+              color: theme.colorScheme.secondary,
             ),
           )
         ],
