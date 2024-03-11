@@ -1,121 +1,118 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:vk_services_flutter/widgets/components/components.dart';
 import 'package:vk_services_flutter/widgets/vk_services/vk_services_screen_model.dart';
 
-class VkServices extends StatefulWidget {
-  const VkServices({super.key});
+class VkServicesWidget extends StatefulWidget {
+  const VkServicesWidget({super.key});
 
   @override
-  State<VkServices> createState() => _VkServicesState();
+  State<VkServicesWidget> createState() => _VkServicesWidgetState();
 }
 
-class _VkServicesState extends State<VkServices> {
+class _VkServicesWidgetState extends State<VkServicesWidget> {
   final model = VkServicesWidgetModel();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: VkServicesWidgetModelProvider(
         model: model,
-        child: const _VkServicesWidget(),
+        child: const _VkServicesWidgetBody(),
       ),
     );
   }
 }
 
-class _VkServicesWidget extends StatelessWidget {
-  const _VkServicesWidget({super.key});
+class _VkServicesWidgetBody extends StatelessWidget {
+  const _VkServicesWidgetBody();
 
   @override
   Widget build(BuildContext context) {
     final vkData = VkServicesWidgetModelProvider.watch(context)?.model.vkData;
     return (vkData != null)
-        ? const _VkServicesRefreshIndicatorWidget()
+        ? const VkRefreshIndicatorWidget(
+            child: _VkCustomScrollViewWidget(),
+          )
         : const Center(
             child: CircularProgressIndicator(),
           );
   }
 }
 
-class _VkServicesRefreshIndicatorWidget extends StatelessWidget {
-  const _VkServicesRefreshIndicatorWidget({
-    super.key,
-  });
+class _VkCustomScrollViewWidget extends StatelessWidget {
+  const _VkCustomScrollViewWidget();
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    return RefreshIndicator(
-      onRefresh: () async {
-        await VkServicesWidgetModelProvider.read(context)
-            ?.model
-            .reloadServices();
-      },
-      color: theme.colorScheme.inversePrimary,
-      backgroundColor: theme.colorScheme.primary,
-      displacement: 10,
-      edgeOffset: 20,
-      child: const _VkServicesCustomScrollViewWidget(),
+    return const CustomScrollView(
+      slivers: <Widget>[
+        _VkSliverAppBar(),
+        _VkSliverListTileDecoration(),
+      ],
     );
   }
 }
 
-class _VkServicesCustomScrollViewWidget extends StatelessWidget {
-  const _VkServicesCustomScrollViewWidget({super.key});
-
+class _VkSliverListTileDecoration extends StatelessWidget {
+  const _VkSliverListTileDecoration();
   @override
   Widget build(BuildContext context) {
     final vkData = VkServicesWidgetModelProvider.read(context)?.model.vkData;
     final ThemeData theme = Theme.of(context);
-    return CustomScrollView(
-      slivers: <Widget>[
-        SliverAppBar(
-          backgroundColor: theme.colorScheme.background,
-          expandedHeight: 90.0,
-          titleSpacing: 0,
-          flexibleSpace: FlexibleSpaceBar(
-            background: Container(
-              color: theme.colorScheme.background,
-            ),
-            centerTitle: true,
-            titlePadding: const EdgeInsets.symmetric(horizontal: 20),
-            title: const Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  textAlign: TextAlign.start,
-                  'Сервисы VK',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          floating: false, // Делаем AppBar "плавающим"
-          pinned: false, // Закрепляем AppBar при прокрутке вниз
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: theme.colorScheme.primary,
+          borderRadius: BorderRadius.circular(15),
         ),
-        SliverToBoxAdapter(
-          child: Container(
-            margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Column(
-              children: List.generate(
-                vkData!.body.services.length,
-                (index) => _VkServiceListTileWidget(index: index),
-              ),
-            ),
+        child: Column(
+          children: List.generate(
+            vkData!.body.services.length,
+            (index) => _VkServiceListTileWidget(index: index),
           ),
         ),
-      ],
+      ),
+    );
+  }
+}
+
+class _VkSliverAppBar extends StatelessWidget {
+  const _VkSliverAppBar();
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return SliverAppBar(
+      backgroundColor: theme.colorScheme.background,
+      expandedHeight: 90.0,
+      titleSpacing: 0,
+      flexibleSpace: FlexibleSpaceBar(
+        background: Container(
+          color: theme.colorScheme.background,
+        ),
+        centerTitle: true,
+        titlePadding: const EdgeInsets.symmetric(horizontal: 20),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              textAlign: TextAlign.start,
+              'Сервисы VK',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+      floating: false, // Делаем AppBar "плавающим"
+      pinned: false, // Закрепляем AppBar при прокрутке вниз
     );
   }
 }
 
 class _VkServiceListTileWidget extends StatelessWidget {
   const _VkServiceListTileWidget({
-    super.key,
     required this.index,
   });
   final int index;

@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const VkServices(),
+      home: const VkServicesWidget(),
       theme: lightTheme,
       darkTheme: darkTheme,
     );
